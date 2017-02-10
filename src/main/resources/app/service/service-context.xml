@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ 							http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+ 							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+ 							http://www.springframework.org/schema/data/jpa
+     						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+					        http://www.springframework.org/schema/tx
+					        http://www.springframework.org/schema/tx/spring-tx.xsd
+     						http://www.springframework.org/schema/util 
+     						http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:properties id="hibernateProps"
+		location="classpath:/app/dbconfig/hibernate.properties" />
+
+	<!-- Bean com o datasource padrao da app -->
+	<bean id="bsConciliaDS" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${bsConcilia.jdbc.driverClassName}" />
+		<property name="url" value="${bsConcilia.jdbc.url}" />
+		<property name="username" value="${bsConcilia.jdbc.username}" />
+		<property name="password" value="${bsConcilia.jdbc.password}" />
+		<!-- POOL CONFIGS -->
+		<property name="initialSize" value="${bsConcilia.pool.initialSize}" />
+		<property name="maxTotal" value="${bsConcilia.pool.maxTotal}" />
+		<property name="maxIdle" value="${bsConcilia.pool.maxIdle}" />
+		<property name="minIdle" value="${bsConcilia.pool.minIdle}" />
+		<property name="maxWaitMillis" value="${bsConcilia.pool.maxWaitMillis}" />
+		<property name="validationQuery" value="select 1" />
+	</bean>
+
+	<context:component-scan base-package="br.com.filipe" />
+
+	<jpa:repositories base-package="br.com.filipe.model" />
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<context:annotation-config />
+
+	<!--<tx:annotation-driven transaction-manager="txManager" />-->
+
+	<!-- Utilizado para garantir injecao de dependencias arquivos default aplicacao -->
+	<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor">
+		<property name="alwaysUseJndiLookup" value="true" />
+	</bean>
+
+	<!-- Configuracoes Velocity -->
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="24101046" />
+	</bean>
+
+</beans>
