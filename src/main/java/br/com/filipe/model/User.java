@@ -6,6 +6,9 @@ import javax.persistence.*;
  * Created by filipedosreis@gmail.com on 10/02/2017.
  */
 @Entity
+@NamedQueries(value = {
+        @NamedQuery(name = "User.findByName",
+                query = "SELECT u FROM User u where upper(u.name) like ?1") })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,12 +16,12 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_departament", nullable = false)
-    private Departament genero;
+    private Departament departament;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(length = 100)
     private String description;
 
     public Long getId() {
@@ -29,12 +32,12 @@ public class User {
         this.id = id;
     }
 
-    public Departament getGenero() {
-        return genero;
+    public Departament getDepartament() {
+        return departament;
     }
 
-    public void setGenero(Departament genero) {
-        this.genero = genero;
+    public void setDepartament(Departament genero) {
+        this.departament = genero;
     }
 
     public String getName() {

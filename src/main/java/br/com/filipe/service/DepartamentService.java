@@ -28,4 +28,8 @@ public class DepartamentService {
         departamentRepository.delete(departament);
     }
 
+    Departament findByName(String departamentName) {
+        return departamentRepository.findByName(departamentName);
+    }
+
 }

@@ -11,10 +11,10 @@ public class Departament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(unique = true, length = 30, nullable = false)
     private String name;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(length = 100)
     private String description;
 
     public Long getId() {

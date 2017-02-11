@@ -1,0 +1,4 @@
+[
+ { "name" : "John", "departament" : {"name" : "IT"} },
+ { "name" : "Jack", "departament" : {"name" : "IT"} }
+]
