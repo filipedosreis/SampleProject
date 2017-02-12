@@ -38,7 +38,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
-    public void listAll(@RequestBody User departament) {
+    @ResponseBody
+    public void delete(@RequestBody User departament) {
         userService.delete(departament);
     }
 }
